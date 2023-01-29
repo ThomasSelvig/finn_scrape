@@ -2,13 +2,16 @@
   "name": "finn_scrape",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "puppeteer_scraper.js",
+  "type": "module",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "pocketbase": "^0.10.1",
+    "puppeteer": "^19.6.2",
     "x-ray": "^2.3.4"
   }
 }

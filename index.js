@@ -1,3 +1,4 @@
+const fs = require("fs")
 var Xray = require("x-ray")
 var x = Xray()
 
@@ -14,5 +15,14 @@ x(
 		}
 	]
 )
-	.write("results.json")
-
+	.paginate(".pagination > a@href")
+	.then(res => {
+		fs.writeFileSync(
+			"results.csv", 
+			`id\ttitle\taddress\tsqr_ftg\tprice\n` +
+			res
+				.map((v, i) => `${v.id || ""}\t${v.title || ""}\t${v.address || ""}\t${v.sqr_ftg || ""}\t${v.price || ""}`)
+				.join("\n")
+		)
+	})
+	// .write("results.json")
