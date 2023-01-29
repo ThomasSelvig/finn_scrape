@@ -5,6 +5,8 @@ import PocketBase from "pocketbase"
 
 (async () => {
 	const pb = new PocketBase("http://127.0.0.1:8090")
+	// BE CALM, OK, THIS IS A MADE UP PASSWORD FOR TESTING
+	// ITS NOT USED ANYWHERE BUT THIS **LOCALLY** HOSTED POCKETBASE
 	await pb.admins.authWithPassword("a@a.com", "2PDLXd7R3yJQDKa")
 
 	// clear DB
