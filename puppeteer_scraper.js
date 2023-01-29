@@ -17,9 +17,9 @@ import PocketBase from "pocketbase"
 	const browser = await puppeteer.launch({headless: true})
 	const page = await browser.newPage()
 
-	// await page.goto("https://www.finn.no/realestate/homes/search.html?sort=PUBLISHED_DESC")
+	await page.goto("https://www.finn.no/realestate/homes/search.html?lifecycle=1&sort=PUBLISHED_DESC")
 	// ca. 190 search results
-	await page.goto( "https://www.finn.no/realestate/homes/search.html?lifecycle=3&sort=PUBLISHED_DESC")
+	// await page.goto( "https://www.finn.no/realestate/homes/search.html?lifecycle=3&sort=PUBLISHED_DESC")
 
 	while (true) {
 		// load the page
