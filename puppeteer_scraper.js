@@ -11,8 +11,9 @@ import PocketBase from "pocketbase"
 
 	// clear DB
 	for (let post of await pb.collection("posts").getFullList()) {
-		pb.collection("posts").delete(post.id)
+		await pb.collection("posts").delete(post.id)
 	}
+	// return
 
 	const browser = await puppeteer.launch({headless: true})
 	const page = await browser.newPage()
@@ -27,19 +28,25 @@ import PocketBase from "pocketbase"
 
 		// scrape
 		let data = await page.evaluate(() => {
-			data = []
-			for (let article of document.querySelectorAll("article")) {
-				data.push({
+			// data = []
+			// for (let article of document.querySelectorAll("article")) {
+			// 	data.push({
+			// 		post_id: article.querySelector(".sf-realestate-heading").id,
+			// 		title: article.querySelector( ".sf-realestate-heading").text
+			// 	})
+			// }
+			// return data
+			return Array(...document.querySelectorAll("article"))
+				.map(article => ({
 					post_id: article.querySelector(".sf-realestate-heading").id,
 					title: article.querySelector( ".sf-realestate-heading").text
-				})
-			}
-			return data
+				}))
 		})
 		// add to DB
 		for (let post of data) {
-			await pb.collection("posts").create(post)
+			pb.collection("posts").create(post, {$autoCancel: false})
 		}
+		// break
 		
 		// move to next page
 		let page_nr = await page.evaluate(() => (new URLSearchParams(location.search)).get("page"))
@@ -47,8 +54,8 @@ import PocketBase from "pocketbase"
 		console.log(page_nr);
 		try {
 			let next_page_link = await page.waitForSelector(".pagination > a[rel=next]", {timeout: 1000})
-			if (next_page_link)
-				await next_page_link.click()
+			// if (next_page_link)
+			await next_page_link.click()
 		} catch (error) {
 			// console.log(error);
 			// console.log("graceful crash");
